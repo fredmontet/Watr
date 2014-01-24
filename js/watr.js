@@ -16,3 +16,6 @@ function displayDocuments() {
     }
   });
 }
+
+//Méthode transformant les select en selects customs
+$("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
