@@ -31,4 +31,5 @@ function displayDocuments() {
 $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 
 //remplacement des placeholders
-$("#filter1 div button span.filter-option").text("Role");
+$("#role div button span.filter-option").text("Role");
+$("#group div button span.filter-option").text("Group");

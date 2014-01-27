@@ -42,12 +42,15 @@
         </div>
 
         <!-- zone de filtres -->
-        <div id="filter2" class="g3">
+        <div id="search" class="g3">
                 <input type="text" class="form-control input-hg" placeholder="Search" />
                 <span class="input-icon fui-search"></span>
         </div>
-        <div id="filter1" class="g1">
-            <select id="role" name="huge" multiple="multiple"   class="select-block">
+        
+        <div id="left" class="g2">
+
+        <div id="role" class="g1">
+            <select name="huge" multiple="multiple"   class="select-block">
                 <option value="0">Audio</option>
                 <option value="1">Person</option>
                 <option value="2">Image</option>
@@ -56,8 +59,8 @@
             </select>
         </div>
         
-        <div id="filter2" class="g2">
-            <select id="role" name="huge" multiple="multiple" class="select-block">
+        <div id="group" class="g1">
+            <select name="huge" multiple="multiple" class="select-block">
                 <option value="0">Audio</option>
                 <option value="1">Person</option>
                 <option value="2">Image</option>
@@ -68,7 +71,6 @@
 
         <!-- Zone d'affichage des résultats -->
         <h3 class="g3">Resultats</h3>
-        <div class="g2">
             <table style="border:1px solid grey;">
                 <tr>
                     <td>Image</td>
@@ -95,21 +97,17 @@
                     <td>trop</td>
                     <td>swag</td>
                 </tr>
-            </table>
+            </table>        
         </div>
-
-        <!-- Formulaire de filtre supplémentaire -->
-        <div class="g1">
-            <div id="filter4">
-                <select id="role" name="huge" multiple="multiple" class="select-block">
-                    <option value="0">Audio</option>
-                    <option value="1">Person</option>
-                    <option value="2">Image</option>
-                    <option value="3">City</option>
-                    <option value="4">Video</option>
-                </select>
+                        <!-- Formulaire de filtre supplémentaire -->
+            <div id="details" class="g1">
+                <input type="text" class="form-control input-lg g3" placeholder="Large" />
+                <input type="text" class="form-control input-lg g3" placeholder="Large" />
+                <input type="text" class="form-control input-lg g3" placeholder="Large" />
+                <input type="text" class="form-control input-lg g3" placeholder="Large" />
+                <input type="text" class="form-control input-lg g3" placeholder="Large" />
             </div>
-        </div>
+        
 
         <!-- retour a la ligne forcé -->
         <div class="cf"></div>

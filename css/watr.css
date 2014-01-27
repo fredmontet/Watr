@@ -2,11 +2,26 @@ table{
     width:100%;
 }
 
-#filter3, #filter2, #filter1{
-    padding-bottom:50px;
+#role, #group, #search{
+    margin-bottom:30px;
+}
+
+#details{
+    background-color: #2980B9;
+    color:white;
+    padding:1%;
+    border-radius: 7px;
+}
+
+#details input{
+    margin-bottom:10px;
+    margin-top: 10px;
 }
 
 h1{
     margin-bottom:50px;
     margin-top:50px;
+}
+h3{
+    margin-top:0px;
 }
