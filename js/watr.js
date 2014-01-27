@@ -1,3 +1,13 @@
+$(document).ready(
+        
+    );
+
+
+
+
+
+
+
 function displayDocument(document) {
   $('#documents').append('<li><a href="http://comem.trucmu.ch/mrm/medias/' + document.groupname + '/' + document.role + '/' + document.filename + '">' + document.id + '</a></li>');
 }
@@ -17,5 +27,8 @@ function displayDocuments() {
   });
 }
 
-//Méthode transformant les select en selects customs
+//Méthode transformant les select en selects customs flat-UI
 $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
+
+//remplacement des placeholders
+$("#filter1 div button span.filter-option").text("Role");

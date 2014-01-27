@@ -405,7 +405,7 @@
         size: 'auto',
         title: null,
         selectedTextFormat : 'values',
-        noneSelectedText : 'Nothing selected',
+        noneSelectedText : 'no selection',
         width: null,
         menuStyle: null,
         toggleSize: null
