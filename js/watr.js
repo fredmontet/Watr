@@ -1,35 +1,62 @@
-$(document).ready(
-        
-    );
+$(document).ready(function() {
+    //recherce, injection des roles existants, et transformation de l'interface
+    displayRoles();
+    displayGroups();
+    transformFlatUI();
+    //remplacement des placeholders
+    $("#role div button span.filter-option").text("Role")
+    $("#group div button span.filter-option").text("Group");
+});
 
+function displayRoles() {
+    //prépare la requête solr
+    var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
+    var request = {};
+    request['q'] = "*:*";
+    request['facet'] = "true";
+    request['facet.field'] = "role";
+    request['rows'] = "0";
 
-
-
-
-
-
-function displayDocument(document) {
-  $('#documents').append('<li><a href="http://comem.trucmu.ch/mrm/medias/' + document.groupname + '/' + document.role + '/' + document.filename + '">' + document.id + '</a></li>');
+    //effectue la requête
+    $.get(url, request, function(result, status, data) {
+        //prend tous les rôles identifiés par la facette
+        $("lst[name=role] int", result).each(function(i, data) {
+            //récupère l'attribut name
+            role = $(data).attr("name");
+            //injection dans le select
+            $("#role select").append("<option value='" + i + "'>" + role + "</option>");
+        });
+    });
 }
 
-function displayDocuments() {
-  var url = "http://localhost:8983/solr/select";
-  var request = {};
-  request['q'] = "role:audio role:video role:text role:image";
-  request['sort'] = "id asc";
-  request['rows'] = "200";
-  request['wt'] = "json";
-  $.getJSON(url, request, function(result, status, data) {
-    var documents = result.response.docs;
-    for ( var i = 0; i < documents.length; i++) {
-      displayDocument(documents[i]);
-    }
-  });
+function displayGroups() {
+    //prépare la requête solr
+    var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
+    var request = {};
+    request['q'] = "role:image";
+    request['facet'] = "true";
+    request['facet.field'] = "groupname";
+    request['rows'] = "0";
+
+    //effectue la requête
+    $.get(url, request, function(result, status, data) {
+        //prend tous les rôles identifiés par la facette
+        $("lst[name=groupname] int", result).each(function(i, data) {
+            //récupère l'attribut name
+            group = $(data).attr("name");
+            //injection dans le select
+            $("#group select").append("<option value='" + i + "'>" + group + "</option>");
+        });
+    });
 }
 
+
+
+function transformFlatUI() {
 //Méthode transformant les select en selects customs flat-UI
-$("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
+    $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
+}
 
-//remplacement des placeholders
-$("#role div button span.filter-option").text("Role");
-$("#group div button span.filter-option").text("Group");
+
+
+

@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-        <meta name="description" content="outil de recherche solR personalisé"/>
+        <meta name="description" content="outil de recherche solR personalisÃ©"/>
         <meta name="author" content="de fred, flav et louis l'embrouille"/>
         <meta name="keywords" content="solr recherche search watr" />
 
@@ -50,26 +50,18 @@
         <div id="left" class="g2">
 
         <div id="role" class="g1">
+            <label>Roles:</label>
             <select name="huge" multiple="multiple"   class="select-block">
-                <option value="0">Audio</option>
-                <option value="1">Person</option>
-                <option value="2">Image</option>
-                <option value="3">City</option>
-                <option value="4">Video</option>
             </select>
         </div>
         
         <div id="group" class="g1">
+            <label>Groups:</label>
             <select name="huge" multiple="multiple" class="select-block">
-                <option value="0">Audio</option>
-                <option value="1">Person</option>
-                <option value="2">Image</option>
-                <option value="3">City</option>
-                <option value="4">Video</option>
             </select>
         </div>
 
-        <!-- Zone d'affichage des résultats -->
+        <!-- Zone d'affichage des rÃ©sultats -->
         <h3 class="g3">Resultats</h3>
             <table style="border:1px solid grey;">
                 <tr>
@@ -99,29 +91,24 @@
                 </tr>
             </table>        
         </div>
-                        <!-- Formulaire de filtre supplémentaire -->
+                        <!-- Formulaire de filtre supplÃ©mentaire -->
             <div id="details" class="g1">
-                <input type="text" class="form-control input-lg g3" placeholder="Large" />
-                <input type="text" class="form-control input-lg g3" placeholder="Large" />
-                <input type="text" class="form-control input-lg g3" placeholder="Large" />
-                <input type="text" class="form-control input-lg g3" placeholder="Large" />
-                <input type="text" class="form-control input-lg g3" placeholder="Large" />
+                <h4>Person</h4>
+                <input type="text" class="form-control input-lg g3" placeholder="Lastname"/>
+                <input type="text" class="form-control input-lg g3" placeholder="Firstname"/>
+                <p>Age:</p>
+                <input type="text" class="form-control input-lg g3" placeholder="Age"/>
+                <p>Sex:</p>
+                <label class="radio"><input type="radio" name="group1" value="1" data-toggle="radio" checked>All</label>
+                <label class="radio"><input type="radio" name="group1" value="2" data-toggle="radio">Man</label>
+                <label class="radio"><input type="radio" name="group1" value="3" data-toggle="radio">Woman</label>
+                <p>Size</p>
+                <input type="text" class="form-control input-lg g3" placeholder="Size"/>
             </div>
         
 
-        <!-- retour a la ligne forcé -->
+        <!-- retour a la ligne forcÃ© -->
         <div class="cf"></div>
-
-        <!-- exemple du prof -->
-        <div>
-            <form>
-            </form>
-            <h1 class="g1">Résultats:</h1>
-            <ul id="documents" class="g2"></ul>
-            <script type="text/javascript">
-                displayDocuments();
-            </script>
-        </div>
 
         <!-- /.container -->
 
