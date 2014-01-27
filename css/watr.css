@@ -3,7 +3,11 @@ table{
 }
 
 #role, #group, #search{
-    margin-bottom:30px;
+    margin-bottom:30px;    
+}
+
+#role select{
+     text-transform:capitalize;
 }
 
 #details{
