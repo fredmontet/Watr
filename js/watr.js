@@ -57,6 +57,7 @@ function transformFlatUI() {
     $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 }
 
+
 /*
  * Fonction d'affichage des resultats reçu après une requète Solr 
  */
@@ -65,5 +66,23 @@ function displayResult(){
 }
 
 
+function search(query){
+    //nettoyage de la liste des résultats
+    $("#results").html("");
+    //prépare la requête solr
+    var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
+    var request = {};
+    request['q'] = query;
 
-
+    //effectue la requête
+    $.get(url, request, function(result, status, data) {
+        //prend tous les rôles identifiés par la facette
+        $("doc", result).each(function(i, data) {
+            //récupèreation de l'id
+            id = $("str[name=id]", data).text();
+            //injection dans le select
+            $("#results").append("<tr data-id='"+id+"'>"+"<td>"+ id +"</td>"+"</tr>");
+            
+        });
+    });
+}
