@@ -4,8 +4,14 @@ $(document).ready(function() {
     displayGroups();
     transformFlatUI();
     //remplacement des placeholders
-    $("#role div button span.filter-option").text("Role")
+    $("#role div button span.filter-option").text("Role");
     $("#group div button span.filter-option").text("Group");
+    
+    $("#search").keyup(function(){
+       console.log($("#search").val());
+        search($("#search").val());
+    });
+    
 });
 
 function displayRoles() {
@@ -57,22 +63,13 @@ function transformFlatUI() {
     $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 }
 
-
-/*
- * Fonction d'affichage des resultats reçu après une requète Solr 
- */
-function displayResult(){
-	
-}
-
-
 function search(query){
     //nettoyage de la liste des résultats
     $("#results").html("");
     //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
-    request['q'] = query;
+    request['q'] = query+"~";
 
     //effectue la requête
     $.get(url, request, function(result, status, data) {
