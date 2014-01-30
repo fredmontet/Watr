@@ -4,12 +4,18 @@ $(document).ready(function() {
     displayGroups();
     transformFlatUI();
     //remplacement des placeholders
-    $("#role div button span.filter-option").text("Role")
+    $("#role div button span.filter-option").text("Role");
     $("#group div button span.filter-option").text("Group");
+    
+    $("#search").keyup(function(){
+       console.log($("#search").val());
+        search($("#search").val());
+    });
+    
 });
 
 function displayRoles() {
-    //prÃ©pare la requÃªte solr
+    //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
     request['q'] = "*:*";
@@ -17,11 +23,11 @@ function displayRoles() {
     request['facet.field'] = "role";
     request['rows'] = "0";
 
-    //effectue la requÃªte
+    //effectue la requête
     $.get(url, request, function(result, status, data) {
-        //prend tous les rÃ´les identifiÃ©s par la facette
+        //prend tous les rôles identifiés par la facette
         $("lst[name=role] int", result).each(function(i, data) {
-            //rÃ©cupÃ¨re l'attribut name
+            //récupère l'attribut name
             role = $(data).attr("name");
             //injection dans le select
             $("#role select").append("<option value='" + i + "'>" + role + "</option>");
@@ -30,7 +36,7 @@ function displayRoles() {
 }
 
 function displayGroups() {
-    //prÃ©pare la requÃªte solr
+    //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
     request['q'] = "role:image";
@@ -38,11 +44,11 @@ function displayGroups() {
     request['facet.field'] = "groupname";
     request['rows'] = "0";
 
-    //effectue la requÃªte
+    //effectue la requête
     $.get(url, request, function(result, status, data) {
-        //prend tous les rÃ´les identifiÃ©s par la facette
+        //prend tous les rôles identifiés par la facette
         $("lst[name=groupname] int", result).each(function(i, data) {
-            //rÃ©cupÃ¨re l'attribut name
+            //récupère l'attribut name
             group = $(data).attr("name");
             //injection dans le select
             $("#group select").append("<option value='" + i + "'>" + group + "</option>");
@@ -53,10 +59,27 @@ function displayGroups() {
 
 
 function transformFlatUI() {
-//MÃ©thode transformant les select en selects customs flat-UI
+//Méthode transformant les select en selects customs flat-UI
     $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 }
 
+function search(query){
+    //nettoyage de la liste des résultats
+    $("#results").html("");
+    //prépare la requête solr
+    var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
+    var request = {};
+    request['q'] = query+"~";
 
-
-
+    //effectue la requête
+    $.get(url, request, function(result, status, data) {
+        //prend tous les rôles identifiés par la facette
+        $("doc", result).each(function(i, data) {
+            //récupèreation de l'id
+            id = $("str[name=id]", data).text();
+            //injection dans le select
+            $("#results").append("<tr data-id='"+id+"'>"+"<td>"+ id +"</td>"+"</tr>");
+            
+        });
+    });
+}

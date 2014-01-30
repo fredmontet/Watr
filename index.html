@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-        <meta name="description" content="outil de recherche solR personalisÃ©"/>
+        <meta name="description" content="outil de recherche solR personalisé"/>
         <meta name="author" content="de fred, flav et louis l'embrouille"/>
         <meta name="keywords" content="solr recherche search watr" />
 
@@ -42,8 +42,8 @@
         </div>
 
         <!-- zone de filtres -->
-        <div id="search" class="g3">
-            <input type="text" class="form-control input-hg" placeholder="Search" />
+        <div class="g3">
+            <input id="search"  type="text" class="form-control input-hg" placeholder="Search" />
             <span class="input-icon fui-search"></span>
         </div>
 
@@ -63,35 +63,10 @@
 
             <!-- Zone d'affichage des resultats -->
             <h3 class="g3">Results</h3>
-            <table style="border:1px solid grey;">
-                <tr>
-                    <td>Image</td>
-                    <td>trop</td>
-                    <td>swag</td>
-                </tr>
-                <tr>
-                    <td>Image</td>
-                    <td>trop</td>
-                    <td>swag</td>
-                </tr>
-                <tr>
-                    <td>Image</td>
-                    <td>trop</td>
-                    <td>swag</td>
-                </tr>
-                <tr>
-                    <td>Image</td>
-                    <td>trop</td>
-                    <td>swag</td>
-                </tr>
-                <tr>
-                    <td>Image</td>
-                    <td>trop</td>
-                    <td>swag</td>
-                </tr>
+            <table id="results" style="border:1px solid grey;">
             </table>        
         </div>
-        <!-- Formulaire de filtre supplÃ©mentaire -->
+        <!-- Formulaire de filtre supplémentaire -->
         <div id="details" class="g1">
             <h4>Person</h4>
             <input type="text" class="form-control input-lg g3" placeholder="Lastname"/>
@@ -106,7 +81,7 @@
         </div>
 
 
-        <!-- retour a la ligne forcÃ© -->
+        <!-- retour a la ligne forcé -->
         <div class="cf"></div>
 
         <!-- /.container -->
