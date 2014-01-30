@@ -1,3 +1,5 @@
+var filters="";
+
 $(document).ready(function() {
     //recherce, injection des roles existants, et transformation de l'interface
     displayRoles();
@@ -6,13 +8,45 @@ $(document).ready(function() {
     //remplacement des placeholders
     $("#role div button span.filter-option").text("Role");
     $("#group div button span.filter-option").text("Group");
-    
+    //remplissage de la page de base
+    search();
+    //mise ne place de l'écouteur du champ de recherche
     $("#search").keyup(function(){
-       console.log($("#search").val());
-        search($("#search").val());
+        console.log(filters);
+        search();
     });
+    //mise en place de l'ecouteur du select Roles
+    $("#role").change(function(){filterChange();});
+    $("#group").change(function(){filterChange();});
     
 });
+
+function filterChange(){
+    //reset filtres
+    filters="";
+    //verfie combien d'options sont selectionnées
+    var selected = $("#role option:selected");
+    //si une option est sélectionnée
+    if(selected.size()>0){
+        //si il n'y a QUE une option sélectionnée
+        if(selected.size()===1){
+            filters=filters+" AND role:"+$("option:selected").text();       
+        }
+        //si il y a PLUSIEURS actions sélectionnées
+        else{           
+            $("option:selected").each(function(i){
+                if(i===0){
+                    filters=filters+" AND (role:"+$(this).text();
+                }
+                else{
+                    filters=filters+" OR role:"+$(this).text();
+                }
+            });     
+            filters=filters+")";
+        }
+    }
+search();
+}
 
 function displayRoles() {
     //prépare la requête solr
@@ -63,14 +97,27 @@ function transformFlatUI() {
     $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 }
 
-function search(query){
+function search(){
+    console.log("Methode search");
     //nettoyage de la liste des résultats
     $("#results").html("");
+    //récupération de la query
+    var query = $("#search").val();
+    //sécurité pour ne pas faire de requête vide
+    if (query.length === 0) {
+        query = "*:*";
+    }
+    //ajout des filtres à la query
+    query=query+filters;
     //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
+    console.log(filters.length);
+    console.log(query);
+    if(query==="*:*"&&filters.length===0){
+        request['rows']=0;
+    }
     request['q'] = query;
-
     //effectue la requête
     $.get(url, request, function(result, status, data) {
         //prend tous les rôles identifiés par la facette
@@ -79,7 +126,6 @@ function search(query){
             id = $("str[name=id]", data).text();
             //injection dans le select
             $("#results").append("<tr data-id='"+id+"'>"+"<td>"+ id +"</td>"+"</tr>");
-            
         });
     });
 }
