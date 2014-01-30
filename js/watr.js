@@ -69,7 +69,7 @@ function search(query){
     //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
-    request['q'] = query+"~";
+    request['q'] = query;
 
     //effectue la requête
     $.get(url, request, function(result, status, data) {
