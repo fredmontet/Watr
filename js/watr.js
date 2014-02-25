@@ -45,7 +45,7 @@ function filterChange(){
             filters=filters+")";
         }
     }
-search();
+    search();
 }
 
 function displayRoles() {
@@ -93,7 +93,7 @@ function displayGroups() {
 
 
 function transformFlatUI() {
-//Méthode transformant les select en selects customs flat-UI
+    //Méthode transformant les select en selects customs flat-UI
     $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 }
 
@@ -124,8 +124,26 @@ function search(){
         $("doc", result).each(function(i, data) {
             //récupèreation de l'id
             id = $("str[name=id]", data).text();
+            //r�cup�re l'ensemble des noeuds
+            
+            var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
+                "</a>"+"</p>"+"<p>"+"</p>"+
+                "<ul class='detail' style='display:none'>"+"</ul>"+"</td>"+"</tr>");
+                
+               
+                 
+            $("*[name!=id]", result).each(function(j, noeud){
+                  
+                $(".detail").append("<li>"+ "test" +"</li>");
+              
+            });
+            console.log (ligne);
             //injection dans le select
-            $("#results").append("<tr data-id='"+id+"'>"+"<td>"+ id +"</td>"+"</tr>");
+            $("#results").append(ligne);
+            $(document).ready(function(){
+                $(".bouton").click(function(){
+                    $(this).parent().nextAll('.detail').first().toggle('slow');
+                });
+            });
         });
-    });
-}
+    }
