@@ -24,16 +24,16 @@ $(document).ready(function() {
 function filterChange(){
     //reset filtres
     filters="";
-    //verfie combien d'options sont selectionnées
-    var selected = $("#role option:selected");
-    //si une option est sélectionnée
-    if(selected.size()>0){
-        //si il n'y a QUE une option sélectionnée
-        if(selected.size()===1){
-            filters=filters+" AND role:"+$("option:selected").text();       
+    //-------------------- check des filtrs roles --------------------
+    var selectedRoles = $("#role option:selected");
+    //si une option est s�lectionn�e
+    if(selectedRoles.size()>0){
+        //si il n'y a QUE une option s�lectionn�e
+        if(selectedRoles.size()===1){
+            filters=filters+" AND role:"+$("#role option:selected").text();
         }
-        //si il y a PLUSIEURS actions sélectionnées
-        else{           
+        //si il y a PLUSIEURS actions s�lectionn�es
+        else{
             $("option:selected").each(function(i){
                 if(i===0){
                     filters=filters+" AND (role:"+$(this).text();
@@ -41,7 +41,30 @@ function filterChange(){
                 else{
                     filters=filters+" OR role:"+$(this).text();
                 }
-            });     
+            });
+            filters=filters+")";
+        }
+    }
+    console.log("CHECK LES FILTRES: "+filters);
+
+    //-------------------- check des filtres groupe --------------------
+    var selectedGroups = $("#group option:selected");
+    //si une option est s�lectionn�e
+    if(selectedGroups.size()>0){
+        //si il n'y a QUE une option s�lectionn�e
+        if(selectedGroups.size()===1){
+            filters=filters+" AND groupname:"+$("#group option:selected").text();
+        }
+        //si il y a PLUSIEURS actions s�lectionn�es
+        else{
+            $("option:selected").each(function(i){
+                if(i===0){
+                    filters=filters+" AND (groupname:"+$(this).text();
+                }
+                else{
+                    filters=filters+" OR groupname:"+$(this).text();
+                }
+            });
             filters=filters+")";
         }
     }
@@ -124,7 +147,7 @@ function search(){
         $("doc", result).each(function(i, data) {
             //récupèreation de l'id
             id = $("str[name=id]", data).text();
-            //r�cup�re l'ensemble des noeuds
+            //r�cup�re l'ensemble des noeuds
             
             var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
                 "</a>"+"</p>"+"<p>"+"</p>"+
