@@ -146,9 +146,9 @@ function search(){
             //crée la liste à remplir d'attributs
             var liste = $("<ul>");
             //pour chaque noeud enfant du noeud courant sauf ID
-            $("*[name!=id]", data).each(function(j, noeud){
+            $("*[name!=id][name!=hobby][name!=language]", data).each(function(j, noeud){
                 //on jaoute des infos dans la liste
-                liste.append("<li>"+$(this).attr("name")+" ---- "+$(this).text()+"</li>");
+                liste.append("<li>"+"<b>"+$(this).attr("name")+": "+"</b>"+$(this).text()+"</li>");
             });
             //création de la ligne ( avec dedans la liste créé précédemment)
             var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
