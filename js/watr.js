@@ -12,7 +12,6 @@ $(document).ready(function() {
     search();
     //mise ne place de l'écouteur du champ de recherche
     $("#search").keyup(function(){
-        console.log(filters);
         search();
     });
     //mise en place de l'ecouteur du select Roles
@@ -121,7 +120,6 @@ function transformFlatUI() {
 }
 
 function search(){
-    console.log("Methode search");
     //nettoyage de la liste des résultats
     $("#results").html("");
     //récupération de la query
@@ -135,8 +133,6 @@ function search(){
     //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
-    console.log(filters.length);
-    console.log(query);
     if(query==="*:*"&&filters.length===0){
         request['rows']=0;
     }
@@ -147,20 +143,17 @@ function search(){
         $("doc", result).each(function(i, data) {
             //récupèreation de l'id
             id = $("str[name=id]", data).text();
-            //r�cup�re l'ensemble des noeuds
-
+            //crée la liste à remplir d'attributs
+            var liste = $("<ul>");
+            //pour chaque noeud enfant du noeud courant sauf ID
+            $("*[name!=id]", data).each(function(j, noeud){
+                //on jaoute des infos dans la liste
+                liste.append("<li>"+$(this).attr("name")+" ---- "+$(this).text()+"</li>");
+            });
+            //création de la ligne ( avec dedans la liste créé précédemment)
             var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
                 "</a>"+"</p>"+"<p>"+"</p>"+
-                "<ul class='detail' style='display:none'>"+"</ul>"+"</td>"+"</tr>");
-
-
-
-            $("*[name!=id]", result).each(function(j, noeud){
-
-                $(".detail").append("<li>"+ "test" +"</li>");
-
-            });
-            console.log (ligne);
+                "<span class='detail' style='display:none'>"+liste.html()+"</span>"+"</td>"+"</tr>");
             //injection dans le select
             $("#results").append(ligne);
         });
