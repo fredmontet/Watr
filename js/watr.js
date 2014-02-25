@@ -140,6 +140,7 @@ function search(){
             console.log (ligne);
             //injection dans le select
             $("#results").append(ligne);
+        });
             $(document).ready(function(){
                 $(".bouton").click(function(){
                     $(this).parent().nextAll('.detail').first().toggle('slow');
