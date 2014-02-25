@@ -18,7 +18,7 @@ $(document).ready(function() {
     //mise en place de l'ecouteur du select Roles
     $("#role").change(function(){filterChange();});
     $("#group").change(function(){filterChange();});
-    
+
 });
 
 function filterChange(){
@@ -148,26 +148,26 @@ function search(){
             //récupèreation de l'id
             id = $("str[name=id]", data).text();
             //r�cup�re l'ensemble des noeuds
-            
+
             var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
                 "</a>"+"</p>"+"<p>"+"</p>"+
                 "<ul class='detail' style='display:none'>"+"</ul>"+"</td>"+"</tr>");
-                
-               
-                 
+
+
+
             $("*[name!=id]", result).each(function(j, noeud){
-                  
+
                 $(".detail").append("<li>"+ "test" +"</li>");
-              
+
             });
             console.log (ligne);
             //injection dans le select
             $("#results").append(ligne);
         });
-            $(document).ready(function(){
-                $(".bouton").click(function(){
-                    $(this).parent().nextAll('.detail').first().toggle('slow');
-                });
+        $(document).ready(function(){
+            $(".bouton").click(function(){
+                $(this).parent().nextAll('.detail').first().toggle('slow');
             });
         });
-    }
+    });
+}
