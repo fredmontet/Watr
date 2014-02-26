@@ -3,7 +3,9 @@
     <head>
         <meta charset="utf-8"/>
         <title>WatR</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <!-- Optimized mobile viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -60,23 +62,34 @@
                 <select name="huge" multiple="multiple" class="select-block">
                 </select>
             </div>
-            
-            <!-- Le paginateur du haut -->
-            <div class="pagination g3">
-			  <ul>
-				<li class="previous">
-				  <a href="#" class="fui-arrow-left" onclick="previousPage();"></a>
-				</li>				
-
-				<li class="next">
-				  <a href="#" class="fui-arrow-right" onclick="nextPage();"></a>
-				</li>
-			  </ul>
-			</div>
 
             <!-- Zone d'affichage des resultats -->
             <h3 class="g3">Results</h3>
             <table id="results" style="border:1px solid grey;">
+                <tbody>
+
+                    <tr data-id="person-Louis">
+                        <td>
+                            <p><a class="bouton">person-louis</a></p><p></p>
+                            <ul class="detail" style="display:none">
+                                <li>Firstname: Louis</li>
+                                <li>Lastname: Allemann</li>
+                                <li>Adress: Le bourg 16</li>       
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr data-id="person-Fred">
+                        <td>
+                            <p><a class="bouton">person-fred</a></p><p></p>
+                            <ul class="detail" style="display:none">
+                                <li>Firstname: Fred</li>
+                                <li>Lastname: Montet</li>
+                                <li>Adress: Gangsta Vevey</li>       
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
             </table>        
         </div>
         <!-- Formulaire de filtre supplémentaire -->
@@ -92,21 +105,7 @@
             <input type="text" class="form-control input-lg g3" placeholder="Size"/>
             <input type="text" class="form-control input-lg g3" placeholder="FootSize"/>
         </div>
-		
-		
-		<!-- Le paginateur du bas -->
-		<div class="pagination g3">
-		  <ul>
-			<li class="previous">
-			  <a href="#" class="fui-arrow-left" onclick="previousPage();"></a>
-			</li>
-										
 
-			<li class="next">
-			  <a href="#" class="fui-arrow-right" onclick="nextPage();"></a>
-			</li>
-		  </ul>
-		</div>
 
         <!-- retour a la ligne forcé -->
         <div class="cf"></div>
@@ -116,8 +115,6 @@
 
         <!-- Load JS here for greater good =============================-->
         <!-- jquery -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="js/jquery-1.8.3.min.js"></script>
         <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
         <script src="js/jquery.ui.touch-punch.min.js"></script>
@@ -130,7 +127,7 @@
         <script src="js/jquery.placeholder.js"></script>
 
         <!-- watR script-->
-        <script type="text/javascript" src="js/watr.js"></script>
+        <script type="text/javascript" src="js/watr_detail.js"></script>
 
         <!-- HTML5 IE Enabling Script -->
         <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->

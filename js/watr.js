@@ -15,6 +15,7 @@ $(document).ready(function() {
 		sessionStorage.setItem("start", 0);
         search(sessionStorage.start);
     });
+    
     //mise en place de l'ecouteur du select Roles
     $("#role").change(function(){filterChange();});
     $("#group").change(function(){filterChange();});
@@ -23,24 +24,23 @@ $(document).ready(function() {
     sessionStorage.setItem("rows", 30);
     sessionStorage.setItem("start", 0);
     
-    //remplissage de la page de base
+    //remplissage de la page de base avant keyup de requete
     search(0);    
-    
 });
 
 function filterChange(){
     //reset filtres
     filters="";
-    //verfie combien d'options sont selectionnées
-    var selected = $("#role option:selected");
-    //si une option est sélectionnée
-    if(selected.size()>0){
-        //si il n'y a QUE une option sélectionnée
-        if(selected.size()===1){
-            filters=filters+" AND role:"+$("option:selected").text();       
+    //-------------------- check des filtrs roles --------------------
+    var selectedRoles = $("#role option:selected");
+    //si une option est s�lectionn�e
+    if(selectedRoles.size()>0){
+        //si il n'y a QUE une option s�lectionn�e
+        if(selectedRoles.size()===1){
+            filters=filters+" AND role:"+$("#role option:selected").text();
         }
-        //si il y a PLUSIEURS actions sélectionnées
-        else{           
+        //si il y a PLUSIEURS actions s�lectionn�es
+        else{
             $("option:selected").each(function(i){
                 if(i===0){
                     filters=filters+" AND (role:"+$(this).text();
@@ -48,11 +48,34 @@ function filterChange(){
                 else{
                     filters=filters+" OR role:"+$(this).text();
                 }
-            });     
+            });
             filters=filters+")";
         }
     }
-search();
+    console.log("CHECK LES FILTRES: "+filters);
+
+    //-------------------- check des filtres groupe --------------------
+    var selectedGroups = $("#group option:selected");
+    //si une option est s�lectionn�e
+    if(selectedGroups.size()>0){
+        //si il n'y a QUE une option s�lectionn�e
+        if(selectedGroups.size()===1){
+            filters=filters+" AND groupname:"+$("#group option:selected").text();
+        }
+        //si il y a PLUSIEURS actions s�lectionn�es
+        else{
+            $("option:selected").each(function(i){
+                if(i===0){
+                    filters=filters+" AND (groupname:"+$(this).text();
+                }
+                else{
+                    filters=filters+" OR groupname:"+$(this).text();
+                }
+            });
+            filters=filters+")";
+        }
+    }
+    search();
 }
 
 function displayRoles() {
@@ -100,7 +123,7 @@ function displayGroups() {
 
 
 function transformFlatUI() {
-//Méthode transformant les select en selects customs flat-UI
+    //Méthode transformant les select en selects customs flat-UI
     $("select").selectpicker({style: 'btn-hg btn-primary', menuStyle: 'dropdown'});
 }
 
@@ -130,9 +153,10 @@ function search(start){
     //prépare la requête solr
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
+
     console.log(filters.length);
     console.log(query);
-    
+
     if(query==="*:*"&&filters.length===0){
         request['rows']=parseInt(sessionStorage.rows);
     } 
@@ -154,10 +178,26 @@ function search(start){
 			
 			//récupèration de l'id
             id = $("str[name=id]", data).text();
-            
+
+            //crée la liste à remplir d'attributs
+            var liste = $("<ul>");
+            //pour chaque noeud enfant du noeud courant sauf ID
+            $("*[name!=id][name!=hobby][name!=language]", data).each(function(j, noeud){
+                //on jaoute des infos dans la liste
+                liste.append("<li>"+"<b>"+$(this).attr("name")+": "+"</b>"+$(this).text()+"</li>");
+            });
+            //création de la ligne ( avec dedans la liste créé précédemment)
+            var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
+                "</a>"+"</p>"+"<p>"+"</p>"+
+                "<span class='detail' style='display:none'>"+liste.html()+"</span>"+"</td>"+"</tr>");
             //injection dans le select
-            $("#results").append("<tr data-id='"+id+"'>"+"<td>"+ id +"</td>"+"</tr>");
-            
+            $("#results").append(ligne);
+        });
+        $(document).ready(function(){
+            $(".bouton").click(function(){
+                $(this).parent().nextAll('.detail').first().toggle('slow');
+            });
+
         });
         pagination(start);
     });
