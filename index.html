@@ -60,6 +60,19 @@
                 <select name="huge" multiple="multiple" class="select-block">
                 </select>
             </div>
+            
+            <!-- Le paginateur du haut -->
+            <div class="pagination g3">
+			  <ul>
+				<li class="previous">
+				  <a href="#" class="fui-arrow-left" onclick="previousPage();"></a>
+				</li>				
+
+				<li class="next">
+				  <a href="#" class="fui-arrow-right" onclick="nextPage();"></a>
+				</li>
+			  </ul>
+			</div>
 
             <!-- Zone d'affichage des resultats -->
             <h3 class="g3">Results</h3>
@@ -79,7 +92,21 @@
             <input type="text" class="form-control input-lg g3" placeholder="Size"/>
             <input type="text" class="form-control input-lg g3" placeholder="FootSize"/>
         </div>
+		
+		
+		<!-- Le paginateur du bas -->
+		<div class="pagination g3">
+		  <ul>
+			<li class="previous">
+			  <a href="#" class="fui-arrow-left" onclick="previousPage();"></a>
+			</li>
+										
 
+			<li class="next">
+			  <a href="#" class="fui-arrow-right" onclick="nextPage();"></a>
+			</li>
+		  </ul>
+		</div>
 
         <!-- retour a la ligne forcé -->
         <div class="cf"></div>
