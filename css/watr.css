@@ -2,6 +2,16 @@ table{
     width:100%;
 }
 
+label{
+    color: #2980B9;
+    font-size: 3em;
+    font-weight:bold;
+    text-align:center;
+    vertical-align:middle;
+    margin:0px;
+    line-height:70px;
+}
+
 #role, #group, #search{
     margin-bottom:30px;    
 }
@@ -25,6 +35,8 @@ table{
 h1{
     margin-bottom:50px;
     margin-top:50px;
+    font-size:5em;
+    color: #2980B9;
 }
 h3{
     margin-top:0px;
