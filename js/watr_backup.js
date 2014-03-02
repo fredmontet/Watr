@@ -224,6 +224,13 @@ function nextPage(){
 }
 
 /*
+function addNextPage(){
+	$(".page:first-of-type").remove()
+	$(".page:last-of-type").after("<li class=\"page active\" onclick=\"openSpecificPage("+(page+1)+");\"><a>"+(page+1)+"</a></li>");
+}
+*/
+
+/*
 * Fonction qui va à la page précédente si elle existe
 */
 function previousPage(){
@@ -242,6 +249,12 @@ function previousPage(){
 		alert("Vous êtes déjà à la première page.");
 	}
 }
+
+/*
+function removePreviousPage(){
+	
+}
+*/
 
 /*
 * Gère la pagination, ajoute les pages en conséquences des 
@@ -265,10 +278,50 @@ function pagination(start){
 	//calcul de la page courante
 	currentPage = Math.ceil((parseInt(sessionStorage.start)+parseInt(sessionStorage.rows))/parseInt(sessionStorage.rows));
 	console.log("currentPage = "+currentPage);
+
+    //calcul de l'"uberPage"
+    //l'uberPage est une variable qui détérmine la page courante du paginateur 
+    //page 1 à 10 = uberPage 1, page 11 à 20 = uberPage 2, etc...
+    
+    if(currentPage.toString().length<=1 || currentPage === 10){
+        uberPage = 1;
+    }else if(currentPage>10){
+        uberPageStr = currentPage.toString().charAt(0);
+        uberPage = parseInt(uberPageStr)+1;
+    }else if(currentPage === parseInt(uberPage.toString()+0)){
+        uberPageStr = currentPage.toString().charAt(0);
+        uberPage = parseInt(uberPageStr);
+    }
+
+    console.log("uberPage = "+uberPage); 
+
        
 	
-	//Affiche les pages
-    $(".pagination .next").before("<li class=\"page active\"><a>"+currentPage+"</a></li>"); 
-    $(".pagination .next").before("<li class=\"page active\"><a>sur</a></li>"); 
-	$(".pagination .next").before("<li class=\"page active\"><a>"+nbPage+"</a></li>"); 
+	//Check et ajoute les pages en consequence
+		for(var page=0;(page+1)<=nbPage;page++){
+				if((page+1)===currentPage || nbPage === 1){
+					$(".pagination .next").before("<li class=\"page active\" onclick=\"openSpecificPage("+(page+1)+");\"><a>"+(page+1)+"</a></li>");
+				}else if(page > 8){			
+					break;
+				}else{
+					$(".pagination .next").before("<li class=\"page\" onclick=\"openSpecificPage("+(page+1)+");\"><a>"+(page+1)+"</a></li>");
+				}
+		}	
+}
+
+
+/*
+* Cette fonction permet de définir le start de la recherche solr à effectuer
+* lorsque l'utilisateur va cliquer sur un numéro de page généré en fonction
+* de cette recherche
+*/ 
+function openSpecificPage(page){
+	console.log("openSpecificPage");
+	
+	//défini le start pour effectuer la recherche correspondante à la page	
+	var start = (page-1)*parseInt(sessionStorage.rows);
+	console.log("specificStart = "+start);
+
+	//effectue la recherche avec le bon start
+	search(start);	
 }
