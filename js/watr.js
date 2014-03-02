@@ -10,12 +10,8 @@ $(document).ready(function() {
     $("#group div button span.filter-option").text("Group");
 
     //mise ne place de l'écouteur du champ de recherche
-    $("#search").keyup(function(){
-        console.log(filters);
-		sessionStorage.setItem("start", 0);
-        search(sessionStorage.start);
-    });
-    
+    keyUpSearch();
+
     //mise en place de l'ecouteur du select Roles
     $("#role").change(function(){filterChange();});
     $("#group").change(function(){filterChange();});
@@ -27,6 +23,15 @@ $(document).ready(function() {
     //remplissage de la page de base avant keyup de requete
     search(0);    
 });
+
+function keyUpSearch(){
+        $("#search").keyup(function(){
+        console.log(filters);
+        sessionStorage.setItem("start", 0);
+        search(sessionStorage.start);
+    });
+}    
+
 
 function filterChange(){
     //reset filtres
@@ -75,7 +80,7 @@ function filterChange(){
             filters=filters+")";
         }
     }
-    search();
+    keyUpSearch();
 }
 
 function displayRoles() {
