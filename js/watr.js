@@ -10,7 +10,10 @@ $(document).ready(function() {
     $("#group div button span.filter-option").text("Group");
 
     //mise ne place de l'écouteur du champ de recherche
-    keyUpSearch();
+    $("#search").keyup(function(){
+        sessionStorage.setItem("start", 0);
+        search(sessionStorage.start);
+    });
 
     //mise en place de l'ecouteur du select Roles
     $("#role").change(function(){filterChange();});
@@ -24,17 +27,9 @@ $(document).ready(function() {
     search(0);
 });
 
-function keyUpSearch(){
-    $("#search").keyup(function(){
-        console.log(filters);
-        sessionStorage.setItem("start", 0);
-        search(sessionStorage.start);
-    });
-}
 
 
 function filterChange(){
-    console.log("Methode filterChange");
     //reset filtres
     filters="";
     //-------------------- check des filtrs roles --------------------
@@ -58,7 +53,6 @@ function filterChange(){
             filters=filters+")";
         }
     }
-    console.log("CHECK LES FILTRES: "+filters);
 
     //-------------------- check des filtres groupe --------------------
     var selectedGroups = $("#group option:selected");
@@ -81,7 +75,6 @@ function filterChange(){
             filters=filters+")";
         }
     }
-    keyUpSearch();
     search(0);
 }
 
@@ -135,7 +128,6 @@ function transformFlatUI() {
 }
 
 function search(start){
-    console.log("Methode search");
 
     //Set de la valeur de départ à 0 si elle n'est pas donnée et sinon la set à la valeur indiquée
     if(start === null){
@@ -145,7 +137,7 @@ function search(start){
     }
 
     //nettoyage de la liste des résultats
-    $("#results").html("");
+    $("#results").empty();
 
     //récupération de la query
     var query = $("#search").val();
@@ -161,7 +153,6 @@ function search(start){
     var url = "http://localhost:8983/solr/select?indent=on&version=2.2";
     var request = {};
 
-    console.log("recherche: "+ query);
 
     if(query==="*:*"&&filters.length===0){
         request['rows']=parseInt(sessionStorage.rows);
@@ -177,7 +168,6 @@ function search(start){
         //récupèration du nombre total de résultat 
         numFound = $("result" ,result).attr("numFound");
         sessionStorage.setItem("numFound",numFound);
-        console.log("Nb de résultats = "+sessionStorage.numFound);
 
         //prend tous les rôles identifiés par la facette
         $("doc", result).each(function(i, data) {
@@ -188,9 +178,65 @@ function search(start){
             //crée la liste à remplir d'attributs
             var liste = $("<ul>");
             //pour chaque noeud enfant du noeud courant sauf ID
-            $("*[name!=id][name!=hobby][name!=language]", data).each(function(j, noeud){
-                //on jaoute des infos dans la liste
-                liste.append("<li>"+"<b>"+$(this).attr("name")+": "+"</b>"+$(this).text()+"</li>");
+            $("doc>*", data).each(function(j, noeud){
+                var array = Array();
+                if($(this).attr('name')=="hobby"){
+                    var contenu="";
+                    $("str", $(this)).each(function(){
+                        array.push($(this).text());
+                        if(array.length>0){
+                            if(array.length==1){
+                                contenu="<b>"+"Hobby"+": "+"</b>"+array[0];
+                            }
+                            else{
+                                hobbies="";
+                                $.each(array, function(i, data){
+                                    if(i==0){
+                                        hobbies+=data;
+                                    }
+                                    else{
+                                        hobbies+=", "+data;
+                                    }
+                                })
+                                contenu="<b>"+"Hobbies: "+"</b>"+hobbies;
+                            }
+
+                        }
+                    });
+                    liste.append("<li>"+contenu+"</li>");
+                }
+                else{
+                    if($(this).attr('name')=="language"){
+                        var contenu="";
+                        $("str", $(this)).each(function(){
+                            array.push($(this).text());
+                            if(array.length>0){
+                                if(array.length==1){
+                                    contenu="<b>"+"language"+": "+"</b>"+array[0];
+                                }
+                                else{
+                                    hobbies="";
+                                    $.each(array, function(i, data){
+                                        if(i==0){
+                                            hobbies+=data;
+                                        }
+                                        else{
+                                            hobbies+=", "+data;
+                                        }
+                                    })
+                                    contenu="<b>"+"languages: "+"</b>"+hobbies;
+                                }
+
+                            }
+                        });
+                        liste.append("<li>"+contenu+"</li>");
+                    }
+                    else{
+                        //on jaoute des infos dans la liste
+                        liste.append("<li>"+"<b>"+$(this).attr("name")+": "+"</b>"+$(this).text()+"</li>");
+                    }
+
+                }
             });
             //création de la ligne ( avec dedans la liste créé précédemment)
             var ligne = ("<tr data-id='" + id+ "'>"+"<td>"+"<p>"+"<a class='bouton'>" + id +
@@ -213,16 +259,13 @@ function search(start){
  * Fonction qui va à la page suivante si elle existe
  */
 function nextPage(){
-    console.log("nextPage");
 
     //Calcul du prochain start
     nextStart = parseInt(sessionStorage.start)+parseInt(sessionStorage.rows);
-    console.log("nextStart supposée: "+nextStart);
 
     //Effectue la recherche au start suivant ou alert l'utilisateur qu'il se trouve déjà à la dernière page
     if(nextStart <= parseInt(sessionStorage.numFound)){
         sessionStorage.setItem("start", nextStart);
-        console.log("start actuel= "+parseInt(sessionStorage.start));
         search(nextStart);
     }else{
         alert("Ceci est la dernière page");
@@ -233,16 +276,13 @@ function nextPage(){
  * Fonction qui va à la page précédente si elle existe
  */
 function previousPage(){
-    console.log("previousPage");
 
     //Calcul du start précédent
     previousStart = parseInt(sessionStorage.start)-parseInt(sessionStorage.rows);
-    console.log("previousStart supposé: "+previousStart);
 
     //Effectue la recherche au start précédent ou alert l'utilisateur qu'il se trouve déjà à la première page
     if(previousStart >= 0){
         sessionStorage.setItem("start", previousStart);
-        console.log("previousStart actuel= "+parseInt(sessionStorage.start));
         search(previousStart);
     }else{
         alert("Vous êtes déjà à la première page.");
@@ -254,11 +294,11 @@ function previousPage(){
  * résultats de la recherche effectuée
  */
 function pagination(start){
-    console.log("pagination");
+
 
     //calcul du nb total de page
     nbPage = Math.ceil(parseInt(sessionStorage.numFound)/parseInt(sessionStorage.rows));
-    console.log("nbPage = "+nbPage);
+
 
     //fait commencer le nb de page à 1
     if(nbPage === 0){
@@ -270,7 +310,7 @@ function pagination(start){
 
     //calcul de la page courante
     currentPage = Math.ceil((parseInt(sessionStorage.start)+parseInt(sessionStorage.rows))/parseInt(sessionStorage.rows));
-    console.log("currentPage = "+currentPage);
+
 
 
     //Affiche les pages
